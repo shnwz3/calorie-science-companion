@@ -95,4 +95,4 @@ I used Claude Code to speed up the Supabase setup, repetitive code and the walkt
 - **Before production:** real auth with per-role rules, plan versioning, single-transaction saves, server-side signals for large caseloads, and a clinical review of the insight wording.
 - **Next:** turning a plan review into a new plan version the client accepts, then push notifications and weekly check-ins.
 - **Where AI helped:** setup and repetitive code (see above).
-- **What I validated personally:** the Supabase setup, the UI (I asked for a redesign), the responsive client layout (I caught it was phone-only on laptops), and the live deploy. Fixed during testing: Vercel settings that broke the live site, and pages scrolling sideways on phones.
+- **What I validated personally:** the Supabase setup, the UI (I asked for a redesign), and the responsive client layout (I caught it was phone-only on laptops). Fixed during testing: Vercel settings that broke the live site, and pages scrolling sideways on phones.
