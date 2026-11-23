@@ -36,9 +36,8 @@ Next.js + TypeScript + Tailwind (Vercel)
 Supabase Postgres + Realtime (shared data between both apps)
 ```
 
-- **Next.js + TypeScript:** one codebase for both apps, with shared types.
-- **Supabase:** real Postgres with constraints, and realtime sync, so a practitioner's recommendation reaches the client's screen in about a second, with no custom backend.
-- **Rules, not an LLM, for insight:** predictable, testable, and every statement traces back to the logs.
+- **Supabase:** Postgres plus realtime sync, so a recommendation reaches the client's screen in about a second, with no custom backend.
+- **Rules, not an LLM, for insight:** predictable, testable, and traceable to the logs.
 
 ## Data model
 
@@ -61,13 +60,12 @@ The plan and the logs are kept separate. A meal with no log is **not logged**; t
 | Skipped | 0 |
 | Not logged | excluded |
 
-- Adherence is averaged over **logged** meals only, and always shown with **logging coverage** (logged ÷ planned). A client who only logs good days gets a high score but low coverage, and the low coverage is flagged.
-- The window is the last 7 completed days.
-- Clients are ranked for attention by clear rules: unanswered messages, no logs for 2+ days, a meal skipped or swapped on half or more of logged days, repeated hunger, drifting meal times, and logging gaps. This is how one practitioner can handle 50–100 clients.
+- Averaged over **logged** meals in the last 7 days, always shown with **logging coverage** (logged ÷ planned), so selective logging gets flagged.
+- Clients are ranked for attention by simple rules (unanswered messages, no recent logs, repeatedly skipped or swapped meals, hunger), so one practitioner can handle 50–100 clients.
 
 ## Key product decisions
 
-- **Client:** today's meals first, with logging in one tap ("As planned"). There's no compliance score, the wording is neutral, and skipped meals aren't shown in red, so honest reporting feels safe. The app is mobile-first and responsive up to desktop.
+- **Client:** today's meals first, with one-tap logging. There's no compliance score and no red for skipped meals, so honest reporting feels safe. Mobile-first and responsive.
 - **Practitioner:** "Needs attention" first, then the score with its context, then a meal × day grid where problem meals stand out.
 - **Insight:** split into *Observed* (facts), *Possible explanations* (marked as not confirmed) and *Suggestions*, with no clinical conclusions.
 - **Actions:** send a recommendation (appears in the client's app), start a plan review (the client sees a banner), flag, mark reviewed, add a note.
@@ -76,14 +74,12 @@ The plan and the logs are kept separate. A meal with no log is **not logged**; t
 
 - One practitioner and one live client. The other clients on the list are static examples.
 - Ananya is in week 2 of 4, on a vegetarian, home-style Indian plan. Workdays are Monday to Friday.
-- Hunger uses a 1–5 scale (1 very hungry, 5 too full).
 
 ## What is mocked and current limits
 
 | Area | Prototype | Production |
 |---|---|---|
 | Login | None; you pick a role on the home page | Supabase Auth with per-role database rules |
-| Data | Ananya's week is generated and resettable | Real logs |
 | Other clients | Static rows | Signals calculated on the server |
 | Notifications | In-app only | Push notifications |
 | Meal plans | Not versioned yet | Versioned plans so history stays correct |
@@ -95,14 +91,8 @@ I used Claude Code to speed up the Supabase setup, repetitive code and the walkt
 ## Technical reflection
 
 - **Hardest decision:** measuring adherence without punishing missing data or rewarding selective logging. I used two numbers that are always shown together: adherence over logged meals, and logging coverage.
-- **Left out on purpose:** login, plan editing, push notifications, a nutrition database and AI-written insight. I wanted one complete loop rather than many half-built features.
+- **Left out on purpose:** login, plan editing, push notifications and a nutrition database, to finish one complete loop.
 - **Before production:** real auth with per-role rules, plan versioning, single-transaction saves, server-side signals for large caseloads, and a clinical review of the insight wording.
 - **Next:** turning a plan review into a new plan version the client accepts, then push notifications and weekly check-ins.
-- **Where AI helped:** Supabase setup and repetitive code, which left more time for the product questions.
-- **What I validated personally:**
-  - I set up Supabase and ran the schema.
-  - I reviewed the UI and asked for a redesign.
-  - I caught that the client app wasn't responsive on a laptop.
-  - I chose to show the app on a phone first in the walkthrough.
-
-  Issues fixed during testing: hidden characters in the Vercel settings that broke the live site, pages scrolling sideways on phones, and a layout squeezed at tablet width.
+- **Where AI helped:** setup and repetitive code (see above).
+- **What I validated personally:** the Supabase setup, the UI (I asked for a redesign), the responsive client layout (I caught it was phone-only on laptops), and the live deploy. Fixed during testing: Vercel settings that broke the live site, and pages scrolling sideways on phones.
