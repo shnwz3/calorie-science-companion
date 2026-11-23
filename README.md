@@ -4,7 +4,7 @@ A working prototype of the client ↔ practitioner adherence loop:
 
 > The client logs what actually happened → the practitioner sees patterns instead of raw entries → the practitioner acts → the client sees the response in their app.
 
-**Live:** https://calorie-science-companion.vercel.app (start with **/demo**)
+**[Open the live prototype](https://calorie-science-companion.vercel.app/demo)** · **[Watch the 4-minute walkthrough](https://drive.google.com/file/d/118JKmd2QAyHxjMd-GJQb_tfAd8ZZYsYC/view)**
 
 | Route | For | What's there |
 |---|---|---|
@@ -165,6 +165,8 @@ I set the direction and made the key calls myself:
 - Rules instead of an LLM for the insight, so it stays predictable and testable.
 - Mobile-first for the client app.
 - Vercel for hosting.
+
+The [walkthrough video](https://drive.google.com/file/d/118JKmd2QAyHxjMd-GJQb_tfAd8ZZYsYC/view) was also made with Claude Code. It's a scripted Playwright recording of the live app with on-screen captions, so it can be re-recorded in a few minutes whenever the app changes.
 
 I checked the output in the running app and sent it back when it wasn't right. For example, I asked for a UI redesign when it looked generic, and for a responsive client layout when it only worked as a phone column.
 
