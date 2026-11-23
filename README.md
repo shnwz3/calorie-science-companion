@@ -78,7 +78,7 @@ The plan and the logs are kept separate. A meal with no log is **not logged**; t
 - Ananya is in week 2 of 4, on a vegetarian, home-style Indian plan. Workdays are Monday to Friday.
 - Hunger uses a 1–5 scale (1 very hungry, 5 too full).
 
-## What is mocked
+## What is mocked and current limits
 
 | Area | Prototype | Production |
 |---|---|---|
@@ -86,25 +86,11 @@ The plan and the logs are kept separate. A meal with no log is **not logged**; t
 | Data | Ananya's week is generated and resettable | Real logs |
 | Other clients | Static rows | Signals calculated on the server |
 | Notifications | In-app only | Push notifications |
-
-## Known limitations
-
-- No plan versioning yet.
-- Some practitioner actions save in two steps instead of one transaction.
-- Everyone with the link shares the same demo data.
-- No time zone handling.
+| Meal plans | Not versioned yet | Versioned plans so history stays correct |
 
 ## AI tools used
 
-I used Claude Code as an AI pair programmer to move faster on implementation: project setup, UI components, the SQL schema and test cases.
-
-I set the direction and made the key calls myself:
-- Supabase for shared live data.
-- Rules instead of an LLM for the insight.
-- Mobile-first for the client app.
-- Vercel for hosting.
-
-I checked the output in the running app and sent it back when it wasn't right. For example, I asked for a UI redesign when it looked generic, and for a responsive client layout when it only worked as a phone column. The [walkthrough video](https://drive.google.com/file/d/118JKmd2QAyHxjMd-GJQb_tfAd8ZZYsYC/view) was also made with Claude Code, as a scripted recording of the live app with captions.
+I used Claude Code to speed up the Supabase setup, repetitive code and the walkthrough recording. The product and technical decisions, and checking the results, were mine.
 
 ## Technical reflection
 
@@ -112,7 +98,7 @@ I checked the output in the running app and sent it back when it wasn't right. F
 - **Left out on purpose:** login, plan editing, push notifications, a nutrition database and AI-written insight. I wanted one complete loop rather than many half-built features.
 - **Before production:** real auth with per-role rules, plan versioning, single-transaction saves, server-side signals for large caseloads, and a clinical review of the insight wording.
 - **Next:** turning a plan review into a new plan version the client accepts, then push notifications and weekly check-ins.
-- **Where AI helped:** the repetitive parts (setup, wiring, building screens, schema, test scaffolding). That left more time for the product questions.
+- **Where AI helped:** Supabase setup and repetitive code, which left more time for the product questions.
 - **What I validated personally:**
   - I set up Supabase and ran the schema.
   - I reviewed the UI and asked for a redesign.
