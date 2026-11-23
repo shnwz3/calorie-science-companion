@@ -1,69 +1,102 @@
-import Image from "next/image";
+import { ArrowUpRight } from "lucide-react";
+import Link from "next/link";
+import { ResetDemoButton } from "@/components/ResetDemoButton";
+import { Logo } from "@/components/ui";
+
+const VIEWS = [
+  {
+    href: "/demo",
+    title: "Side-by-side",
+    who: "Reviewers",
+    body: "Ananya’s phone and Dr. Meera’s dashboard on one screen, sharing live data.",
+    recommended: true,
+  },
+  {
+    href: "/client",
+    title: "Companion app",
+    who: "Client · Ananya Rao",
+    body: "Today’s plan, logging a meal in a few taps, progress and messages.",
+  },
+  {
+    href: "/practitioner",
+    title: "Practitioner workspace",
+    who: "Practitioner · Dr. Meera Iyer",
+    body: "Caseload ranked by need, adherence patterns, insight and follow-up actions.",
+  },
+];
+
+const STEPS = [
+  ["Read the case", "Open Ananya in the practitioner workspace. Start with “Needs attention” and the weekly pattern."],
+  ["Respond", "On her afternoon-snack message, choose “Respond with recommendation” and send it."],
+  ["See it land", "In the companion app the suggestion appears on Today and under the snack."],
+  ["Log honestly", "Log a meal as “Something else”. The practitioner view updates on its own."],
+  ["Adjust the plan", "Start a plan review. Ananya sees that her plan is being reviewed."],
+];
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
+    <div className="min-h-dvh bg-paper">
+      <div className="mx-auto max-w-3xl px-5 py-10 sm:py-16">
+        <Logo />
+
+        <header className="mt-12">
+          <p className="text-sm font-medium text-brand-700">Prototype · Adherence workflow</p>
+          <h1 className="mt-2 font-serif text-[2rem] font-semibold leading-[1.15] tracking-tight text-stone-900 sm:text-[2.5rem]">
+            What the client actually ate, and what the practitioner does about it.
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="mt-4 max-w-2xl text-[1.0625rem] leading-relaxed text-stone-600">
+            Clients log what really happened at each meal. Practitioners see the patterns instead of reading every entry, and their response
+            shows up in the client’s app.
           </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+        </header>
+
+        <nav aria-label="Open the prototype" className="mt-10">
+          <ul className="divide-y divide-line overflow-hidden rounded-xl border border-line bg-surface">
+            {VIEWS.map((v) => (
+              <li key={v.href}>
+                <Link href={v.href} className="group flex items-start gap-4 px-5 py-5 transition-colors hover:bg-stone-50">
+                  <div className="min-w-0 flex-1">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="font-semibold text-stone-900">{v.title}</span>
+                      {v.recommended && <span className="rounded-md bg-brand-50 px-2 py-0.5 text-xs font-medium text-brand-700">Start here</span>}
+                    </div>
+                    <p className="mt-0.5 text-sm text-stone-500">{v.who}</p>
+                    <p className="mt-2 text-[0.9375rem] text-stone-700">{v.body}</p>
+                  </div>
+                  <ArrowUpRight
+                    className="mt-1 h-5 w-5 shrink-0 text-stone-500 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-brand-700"
+                    aria-hidden="true"
+                  />
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <section aria-labelledby="walk-h" className="mt-12">
+          <h2 id="walk-h" className="font-serif text-xl font-semibold text-stone-900">
+            A two-minute walkthrough
+          </h2>
+          <ol className="mt-4 space-y-4">
+            {STEPS.map(([title, body], i) => (
+              <li key={title} className="grid grid-cols-[2rem_1fr] gap-3">
+                <span className="tabular grid h-7 w-7 place-items-center rounded-full border border-line bg-surface text-sm font-semibold text-stone-700">
+                  {i + 1}
+                </span>
+                <div>
+                  <p className="font-medium text-stone-900">{title}</p>
+                  <p className="text-[0.9375rem] text-stone-600">{body}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        <footer className="mt-12 flex flex-col gap-3 border-t border-line pt-6 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-sm text-stone-500">Demo data is shared by everyone with this link.</p>
+          <ResetDemoButton />
+        </footer>
+      </div>
     </div>
   );
 }

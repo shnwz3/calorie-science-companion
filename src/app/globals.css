@@ -1,26 +1,133 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
+/*
+  CalorieScience Companion — design tokens
+  Direction: calm, clinical, editorial. Warm paper surfaces, ink text, one deep
+  green brand colour, a muted status palette that reads as a family, hairline
+  borders instead of heavy shadows. No gradients, no emoji as UI.
+*/
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-public-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-source-serif), ui-serif, Georgia, serif;
+
+  /* Brand: deep forest green (AA on white at 600+) */
+  --color-brand-50: #f1f6f2;
+  --color-brand-100: #dde9e0;
+  --color-brand-200: #bcd3c2;
+  --color-brand-500: #3d7a57;
+  --color-brand-600: #2c6345;
+  --color-brand-700: #224f37;
+  --color-brand-800: #1a3d2b;
+
+  /* Surfaces */
+  --color-paper: #f7f5f0;
+  --color-surface: #ffffff;
+  --color-line: #e6e2d9;
+
+  /* Status family: similar lightness so no state shouts; all ≥4.5:1 with white text (WCAG AA) */
+  --color-st-followed: #357a51;
+  --color-st-followed-soft: #e5f0e8;
+  --color-st-partial: #687a2c;
+  --color-st-partial-soft: #eef2df;
+  --color-st-swapped: #4a6ea0;
+  --color-st-swapped-soft: #e5ecf5;
+  --color-st-skipped: #a85f28;
+  --color-st-skipped-soft: #f7ebde;
+  --color-st-due: #2c6345;
+
+  /* Secondary text: Tailwind stone-500 is 4.4:1 on paper; nudged darker to pass AA */
+  --color-stone-500: #6b645e;
+
+  /* Signal severity */
+  --color-sev-high: #b4442f;
+  --color-sev-medium: #b7791f;
+
+  /* Semantic scales (replace Tailwind's saturated defaults) */
+  --color-danger-50: #fbefec;
+  --color-danger-100: #f5dad3;
+  --color-danger-200: #ebbcb0;
+  --color-danger-500: #c0543d;
+  --color-danger-600: #a8452f;
+  --color-danger-700: #8c3826;
+  --color-danger-900: #4f1f15;
+  --color-ok-50: #eef5f0;
+  --color-ok-100: #dcebe1;
+  --color-ok-200: #bfd9c7;
+  --color-ok-500: #3f8a5f;
+  --color-ok-600: #33744f;
+  --color-ok-700: #2a5f41;
+  --color-info-50: #eef2f8;
+  --color-info-100: #dfe6f1;
+  --color-info-200: #c6d2e6;
+  --color-info-500: #4f74a8;
+  --color-info-600: #426391;
+  --color-info-700: #36527a;
+  --color-info-900: #1f3047;
+  --color-plum-50: #f4eff5;
+  --color-plum-400: #9c7aa6;
+  --color-plum-500: #85648f;
+  --color-plum-700: #5f4467;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-paper);
+  color: #1c1917;
+  font-feature-settings: "tnum" 0;
+}
+
+/* Tailwind v4 dropped pointer cursors on buttons; restore for clear affordance. */
+button:not(:disabled),
+[role="button"]:not([aria-disabled="true"]),
+summary {
+  cursor: pointer;
+}
+
+/* One consistent, visible focus treatment for keyboard users. */
+:where(a, button, input, textarea, select, [tabindex]):focus-visible {
+  outline: 2px solid var(--color-brand-600);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+::selection {
+  background: var(--color-brand-100);
+}
+
+/* Numbers in stats and tables align */
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* "Not logged" = missing data, shown as hatching, never as a colour */
+.hatch {
+  background-image: repeating-linear-gradient(-45deg, #efece5 0 4px, #e3dfd5 4px 8px);
+}
+
+@keyframes sheet-up {
+  from { transform: translateY(16px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.animate-sheet { animation: sheet-up 200ms cubic-bezier(0.2, 0.8, 0.2, 1); }
+.animate-fade { animation: fade-in 150ms ease-out; }
+.animate-pop { animation: fade-in 150ms ease-out; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }
