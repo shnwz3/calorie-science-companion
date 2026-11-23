@@ -158,7 +158,15 @@ Clients are sorted by these signals, so with 50–100 clients the practitioner c
 
 ## AI tools used
 
-I built this with Claude Code. I made the product and stack decisions (Supabase for shared live data, rules instead of an LLM for the insight, Vercel for hosting) and reviewed the results as they came in. Claude Code wrote most of the code, SQL, tests and docs.
+I used Claude Code as an AI pair programmer to move faster on implementation: project setup, UI components, the SQL schema and test cases.
+
+I set the direction and made the key calls myself:
+- Supabase for shared live data between the two apps.
+- Rules instead of an LLM for the insight, so it stays predictable and testable.
+- Mobile-first for the client app.
+- Vercel for hosting.
+
+I checked the output in the running app and sent it back when it wasn't right. For example, I asked for a UI redesign when it looked generic, and for a responsive client layout when it only worked as a phone column.
 
 ## Technical reflection
 
@@ -170,7 +178,7 @@ I built this with Claude Code. I made the product and stack decisions (Supabase 
 
 **What I'd build next:** turning a plan review into a new plan version the client accepts, push notifications, weekly check-ins, and an optional AI summary written only from the same logged facts.
 
-**Where AI accelerated development:** almost everywhere: project setup, the Supabase wiring, the screens, the SQL schema and the tests. It also made it quick to re-record the walkthrough video whenever something changed.
+**Where AI accelerated development:** the repetitive parts: project setup, Supabase wiring, building screens to an agreed design, the SQL schema and test scaffolding. That left more of the time for the product questions, like how adherence should be measured and what the practitioner should see first. It also made re-recording the walkthrough quick whenever something changed.
 
 **What I validated or debugged personally:**
 - I set up the Supabase project and ran the schema.
