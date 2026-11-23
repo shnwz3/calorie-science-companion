@@ -94,8 +94,8 @@ function Messages({ data }: { data: ClientBundle }) {
   }
 
   return (
-    <div className="pb-10 pt-[max(2rem,env(safe-area-inset-top))]">
-      <header className="flex items-center gap-3 px-5">
+    <div className="pb-10 pt-[max(2rem,env(safe-area-inset-top))] md:px-10 md:pb-12 md:pt-14 lg:px-12">
+      <header className="flex items-center gap-3 px-5 md:px-0">
         <Avatar name="Meera Iyer" />
         <div>
           <h1 className="font-serif text-[1.375rem] font-semibold leading-tight tracking-tight">Dr. Meera Iyer</h1>
@@ -103,7 +103,9 @@ function Messages({ data }: { data: ClientBundle }) {
         </div>
       </header>
 
-      <section aria-label="Conversation" className="mt-6 space-y-4 border-y border-line bg-stone-100/50 px-4 py-5">
+      {/* Phone & tablet: conversation then composer. Desktop (≥1024px): side by side, composer stays in view. */}
+      <div className="md:mt-8 lg:grid lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-start lg:gap-10 xl:grid-cols-[minmax(0,1fr)_24rem]">
+      <section aria-label="Conversation" className="mt-6 space-y-4 border-y border-line bg-stone-100/50 px-4 py-5 md:mt-0 md:min-h-[24rem] md:rounded-xl md:border md:px-6 md:py-6">
         {thread.length === 0 ? (
           <p className="py-6 text-center text-sm text-stone-500">No messages yet. If something in your plan isn’t working, this is the place to say so.</p>
         ) : (
@@ -136,7 +138,7 @@ function Messages({ data }: { data: ClientBundle }) {
         )}
       </section>
 
-      <section aria-labelledby="compose-h" className="space-y-5 px-5 pt-6">
+      <section aria-labelledby="compose-h" className="space-y-5 px-5 pt-6 md:mt-8 md:rounded-xl lg:sticky lg:top-8 lg:mt-0 md:border md:border-line md:bg-surface md:p-5">
         <div>
           <h2 id="compose-h" className="text-sm font-semibold text-stone-900">
             Tell Dr. Meera what’s getting in the way
@@ -146,7 +148,7 @@ function Messages({ data }: { data: ClientBundle }) {
 
         <fieldset className="min-w-0">
           <legend className="mb-2 text-sm text-stone-600">Which meal is it about?</legend>
-          <div className="-mx-5 flex gap-2 overflow-x-auto px-5 pb-1 [scrollbar-width:none]">
+          <div className="-mx-5 flex gap-2 overflow-x-auto px-5 pb-1 [scrollbar-width:none] md:mx-0 md:flex-wrap md:overflow-visible md:px-0">
             <Chip active={meal === null} onClick={() => setMeal(null)} className="shrink-0">
               General
             </Chip>
@@ -217,6 +219,7 @@ function Messages({ data }: { data: ClientBundle }) {
           {!sending && <Send className="h-4 w-4" aria-hidden="true" />} Send message
         </Button>
       </section>
+      </div>
       <Toast message={toast} onDone={clearToast} />
     </div>
   );

@@ -90,22 +90,28 @@ function Today({ data }: { data: ClientBundle }) {
   }
 
   return (
-    <div className="pb-8">
-      <div className="flex items-center justify-between px-5 pt-[max(1rem,env(safe-area-inset-top))]">
-        <Logo compact />
+    <div className="pb-8 md:px-10 md:pb-12 md:pt-6 lg:px-12">
+      <div className="flex items-center justify-between px-5 pt-[max(1rem,env(safe-area-inset-top))] md:justify-end md:px-0 md:pt-0">
+        <span className="md:hidden">
+          <Logo compact />
+        </span>
         <LiveDot live={live} />
       </div>
 
-      <header className="px-5 pb-5 pt-5">
+      <header className="px-5 pb-5 pt-5 md:px-0 md:pb-8 md:pt-2">
         <p className="text-sm text-stone-500">
           {formatLongDate(today)} · Week {week} of {data.client.programme_weeks}
         </p>
-        <h1 className="mt-1 font-serif text-[1.75rem] font-semibold leading-tight tracking-tight text-stone-900">
+        <h1 className="mt-1 font-serif text-[1.75rem] font-semibold leading-tight tracking-tight text-stone-900 md:text-[2.25rem]">
           {greeting(nowMin)}, {firstName}
         </h1>
+      </header>
 
+      {/* Phone & tablet: one column (at-a-glance first). Desktop (≥1024px): timeline left, sticky at-a-glance column right. */}
+      <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-start lg:gap-10 xl:grid-cols-[minmax(0,1fr)_22rem]">
+      <aside aria-label="Today at a glance" className="space-y-3 px-4 md:px-0 lg:sticky lg:top-8 lg:order-2">
         {/* Daily progress: counts what's been logged, never a compliance score */}
-        <div className="mt-5" aria-label={`${logged} of ${cells.length} meals logged today`}>
+        <div className="px-1 md:rounded-xl md:border md:border-line md:bg-surface md:p-4" aria-label={`${logged} of ${cells.length} meals logged today`}>
           <div className="flex items-baseline justify-between text-sm">
             <span className="font-medium text-stone-800">
               <span className="tabular">{logged}</span> of {cells.length} meals logged
@@ -120,23 +126,24 @@ function Today({ data }: { data: ClientBundle }) {
               </li>
             ))}
           </ol>
+          <p className="mt-3 hidden text-sm leading-relaxed text-stone-600 md:block">
+            Log each meal after you eat, including the ones that didn’t go to plan. Dr. Meera uses this to adjust your plan.
+          </p>
         </div>
-      </header>
 
-      <div className="space-y-3 px-4">
         {data.client.plan_review_status === "in_review" && (
-          <aside className="flex gap-3 rounded-xl border border-info-200 bg-info-50 p-4 text-sm text-info-900">
+          <div className="flex gap-3 rounded-xl border border-info-200 bg-info-50 p-4 text-sm text-info-900">
             <ClipboardList className="mt-0.5 h-5 w-5 shrink-0 text-info-600" aria-hidden="true" />
             <p>
               <span className="font-semibold">Your plan is being reviewed.</span> Dr. Meera is adjusting it based on what you’ve logged. Keep logging as
               usual in the meantime.
             </p>
-          </aside>
+          </div>
         )}
 
         {unseen.map((a) => (
-          <aside key={a.id} className="animate-sheet rounded-xl border border-line border-l-4 border-l-brand-600 bg-surface p-4">
-            <div className="flex items-center gap-2 text-sm">
+          <div key={a.id} className="animate-sheet rounded-xl border border-line border-l-4 border-l-brand-600 bg-surface p-4">
+            <div className="flex flex-wrap items-center gap-x-2 text-sm">
               <MessageSquareText className="h-4 w-4 text-brand-600" aria-hidden="true" />
               <span className="font-semibold text-stone-900">Message from {a.author}</span>
               <span className="text-stone-500">· {relativeTime(a.created_at)}</span>
@@ -145,11 +152,11 @@ function Today({ data }: { data: ClientBundle }) {
             <Button size="sm" className="mt-3" onClick={() => markActionsSeen([a.id])}>
               <Check className="h-4 w-4" aria-hidden="true" /> Mark as read
             </Button>
-          </aside>
+          </div>
         ))}
-      </div>
+      </aside>
 
-      <section aria-labelledby="plan-heading" className="mt-6 px-4">
+      <section aria-labelledby="plan-heading" className="mt-6 px-4 md:mt-8 md:px-0 lg:order-1 lg:mt-0">
         <h2 id="plan-heading" className="mb-3 px-1 text-sm font-semibold text-stone-900">
           Today’s plan
         </h2>
@@ -224,7 +231,7 @@ function Today({ data }: { data: ClientBundle }) {
                   )}
 
                   {!cell.log && cell.state === "due" && (
-                    <div className="grid grid-cols-2 gap-2 border-t border-line p-3">
+                    <div className="grid grid-cols-2 gap-2 border-t border-line p-3 md:flex md:px-4">
                       <Button variant="primary" className="whitespace-nowrap px-3" loading={quickSaving === cell.item.id} onClick={() => quickFollowed(cell)}>
                         {quickSaving !== cell.item.id && <Check className="h-4 w-4" aria-hidden="true" />} As planned
                       </Button>
@@ -240,6 +247,7 @@ function Today({ data }: { data: ClientBundle }) {
         </ol>
         <p className="mt-2 px-1 text-sm text-stone-500">Tap any meal to log or change what happened. Skipped meals are worth logging too.</p>
       </section>
+      </div>
 
       {sheet && (
         <LogSheet

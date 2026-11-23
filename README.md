@@ -162,10 +162,18 @@ There are no clinical conclusions, and a footer says this is not a clinical asse
 - **Colour is never the only signal (WCAG 1.4.1):** every status also has an icon (`StatusIcon`) and a text label, and severity in "Needs attention" is written out (High / Medium / Low).
 - **Deliberately avoided:** gradients, emoji used as UI, sparkle icons, heavy drop shadows, rounded-everything card soup, and uppercase micro-labels. Surfaces are flat with hairline borders.
 
-**Client app (mobile-first):**
+**Client app: mobile-first, responsive up to desktop.** The brief asks for a *mobile-first* client experience and *responsive* design. Clients mostly log on their phone after a meal, so the phone layout is the primary design and the larger layouts are built up from it:
+
+| Width | Layout |
+|---|---|
+| < 768px (phones) | Bottom tab bar, single column, logging as a bottom sheet, safe-area insets respected |
+| 768–1023px (tablets) | Persistent side rail; one comfortable content column |
+| ≥ 1024px (laptops/desktops) | Side rail plus two columns: the Today timeline with a sticky "at a glance" panel, Messages as conversation and composer side by side, Progress with a full-width week grid |
+
 - Today is a vertical day timeline with the next meal highlighted.
-- Logging takes one tap ("As planned"). Anything else opens a bottom sheet where only the status is required and the details appear only when relevant (progressive disclosure).
-- Touch targets are at least 44px. Safe-area insets are respected. The bottom nav uses `aria-current`.
+- Logging takes one tap ("As planned"). Anything else opens a sheet where only the status is required and the details appear only when relevant (progressive disclosure). On desktop the sheet becomes a centred dialog.
+- Touch targets are at least 44px. Navigation uses `aria-current`.
+- Each breakpoint was checked at 375, 768, 1024 and 1440px, both for horizontal overflow and for columns being squeezed too narrow.
 
 **Practitioner workspace:**
 - The reading order matches the decision order: *Needs attention → overview → weekly pattern → insight → feedback → activity*.

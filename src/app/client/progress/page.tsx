@@ -60,13 +60,15 @@ function Progress({ data }: { data: ClientBundle }) {
   const allLogs = new Map(data.logs.map((l) => [`${l.plan_item_id}|${l.log_date}`, l]));
 
   return (
-    <div className="space-y-8 px-5 pb-10 pt-[max(2rem,env(safe-area-inset-top))]">
+    <div className="px-5 pb-10 pt-[max(2rem,env(safe-area-inset-top))] md:px-10 md:pb-12 md:pt-14 lg:px-12">
       <header>
         <p className="text-sm text-stone-500">{formatLongDate(today)}</p>
-        <h1 className="mt-1 font-serif text-[1.75rem] font-semibold leading-tight tracking-tight">Your progress</h1>
+        <h1 className="mt-1 font-serif text-[1.75rem] font-semibold leading-tight tracking-tight md:text-[2.25rem]">Your progress</h1>
       </header>
 
-      <section aria-labelledby="today-h">
+      {/* Phone & tablet: stacked. Desktop (≥1024px): the week grid spans the full width; today and the notes sit side by side below. */}
+      <div className="mt-8 space-y-8 lg:grid lg:grid-cols-2 lg:gap-x-10 lg:gap-y-10 lg:space-y-0">
+      <section aria-labelledby="today-h" className="lg:col-start-1 lg:row-start-2">
         <h2 id="today-h" className="text-sm font-semibold text-stone-900">
           Today
         </h2>
@@ -81,7 +83,7 @@ function Progress({ data }: { data: ClientBundle }) {
         <p className="mt-3 text-[0.9375rem] leading-relaxed text-stone-700">{message}</p>
       </section>
 
-      <section aria-labelledby="week-h">
+      <section aria-labelledby="week-h" className="lg:col-span-2 lg:row-start-1">
         <div className="flex items-baseline justify-between">
           <h2 id="week-h" className="text-sm font-semibold text-stone-900">
             Last 7 days
@@ -92,8 +94,8 @@ function Progress({ data }: { data: ClientBundle }) {
             </span>
           )}
         </div>
-        <div className="mt-3 rounded-xl border border-line bg-surface p-3">
-          <table className="w-full border-separate border-spacing-y-1.5 text-center text-xs">
+        <div className="mt-3 rounded-xl border border-line bg-surface p-3 md:p-5">
+          <table className="w-full border-separate border-spacing-y-1.5 text-center text-xs md:border-spacing-y-2.5 md:text-sm">
             <caption className="sr-only">Meals logged per day over the last week</caption>
             <thead>
               <tr>
@@ -121,11 +123,11 @@ function Progress({ data }: { data: ClientBundle }) {
                         <span
                           title={label}
                           className={cx(
-                            "mx-auto grid h-6 w-6 place-items-center rounded-md",
+                            "mx-auto grid h-6 w-6 place-items-center rounded-md md:h-9 md:w-9 md:rounded-lg",
                             log ? STATUS_STYLE[log.status].cell : d === today ? "bg-stone-100" : "hatch",
                           )}
                         >
-                          {log && <StatusIcon state={log.status} className="h-3.5 w-3.5" />}
+                          {log && <StatusIcon state={log.status} className="h-3.5 w-3.5 md:h-4 md:w-4" />}
                           <span className="sr-only">{label}</span>
                         </span>
                       </td>
@@ -152,7 +154,7 @@ function Progress({ data }: { data: ClientBundle }) {
       </section>
 
       {(showStrong || showTricky) && (
-        <section aria-labelledby="notes-h" className="space-y-3">
+        <section aria-labelledby="notes-h" className="space-y-3 lg:col-start-2 lg:row-start-2">
           <h2 id="notes-h" className="text-sm font-semibold text-stone-900">
             What your logs show
           </h2>
@@ -180,6 +182,7 @@ function Progress({ data }: { data: ClientBundle }) {
           )}
         </section>
       )}
+      </div>
     </div>
   );
 }

@@ -267,7 +267,7 @@ export function Toast({ message, onDone }: { message: string | null; onDone: () 
     return () => clearTimeout(t);
   }, [message, onDone]);
   return (
-    <div aria-live="polite" className="pointer-events-none fixed inset-x-0 bottom-24 z-[60] flex justify-center px-4">
+    <div aria-live="polite" className="pointer-events-none fixed inset-x-0 bottom-24 z-[60] flex justify-center px-4 md:bottom-8">
       {message && <div className="animate-sheet rounded-lg bg-stone-900 px-4 py-2.5 text-sm text-white">{message}</div>}
     </div>
   );
