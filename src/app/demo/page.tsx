@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ResetDemoButton } from "@/components/ResetDemoButton";
 import { Logo } from "@/components/ui";
 
-export const metadata = { title: "Side-by-side demo · CalorieScience Companion" };
+export const metadata = { title: "Side-by-side demo" };
 
 export default function DemoPage() {
   return (
